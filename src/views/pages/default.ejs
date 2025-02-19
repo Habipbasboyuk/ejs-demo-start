@@ -1,0 +1,16 @@
+
+
+  <h1> <%= title %> </h1>
+  <p> <%= content %> </p>
+
+  <hr>
+  <% if(Array.isArray(team)) { %>
+    <h3> maak kennis met ons team: </h3>
+    <ul>
+      <% team.forEach(dino => { %>
+        <li> <%= dino %> </li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <p><%= person.name %> is <%= person.age %> jaar oud en is <%= person.job %>.</p>

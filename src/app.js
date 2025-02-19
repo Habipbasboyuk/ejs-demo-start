@@ -1,7 +1,9 @@
 // import statements
 import express from "express";
-import path from "path";
+import path, { format } from "path";
+import expressLayouts from "express-ejs-layouts";
 
+import {home, about, contact, privacy, person} from "./controllers/page-controller.js";
 // create an instance of express
 const app = express();
 
@@ -12,11 +14,24 @@ app.set('views', path.resolve("src", "views"));
 // they can be accessed from the root of the site (e.g. /assets/images/dino_07.png) 🦕
 app.use(express.static("public"));
 
+app.use(expressLayouts);
+
+app.set("layout", "layouts/main");
+
 // GET route to serve the index.html file
-app.get("/", (req, res) => {
-  res.render('home', {
-    title: 'dinosaurs are awesome!',
-    content: 'dinosaurs are a diverse group of reptiles of the clade dinosauria. They first appeared during the Triassic period, between 243 and 233.23 million years ago, although the exact origin and timing of the evolution of dinosaurs is the subject of active research.'
+app.get("/", home);
+
+app.get("/about", about);
+
+app.get("/contact", contact);
+
+app.get("/privacy", privacy);
+
+app.get("/person", person);
+
+app.get("*", (req, res) => {
+  res.status(404).render("errors/404.ejs", {
+    layout: "layouts/error"
   });
 });
 
@@ -25,3 +40,4 @@ app.listen(process.env.PORT, () => {
   // callback function that is called when the server starts
   console.log(`Application is listening to port ${process.env.PORT}.`);
 });
+
